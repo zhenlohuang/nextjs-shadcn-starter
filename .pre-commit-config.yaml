@@ -1,0 +1,55 @@
+repos:
+  # Pre-commit hooks for general file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^public/
+      - id: end-of-file-fixer
+        exclude: ^public/
+      - id: check-yaml
+        exclude: ^public/
+      - id: check-json
+        exclude: ^public/
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+        exclude: ^public/
+      - id: check-merge-conflict
+        exclude: ^public/
+      - id: check-case-conflict
+        exclude: ^public/
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+        exclude: ^public/
+
+  # ESLint for JavaScript/TypeScript (using local installation)
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint
+        entry: npx eslint --fix
+        language: system
+        files: \.(js|jsx|ts|tsx)$
+        types: [file]
+        exclude: ^public/
+
+  # Prettier for code formatting (using local installation)
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Prettier
+        entry: npx prettier --write
+        language: system
+        files: \.(js|jsx|ts|tsx|json|css|md|yml|yaml)$
+        types: [file]
+        exclude: ^public/
+
+  # TypeScript type checking
+  - repo: local
+    hooks:
+      - id: tsc
+        name: TypeScript type check
+        entry: npx tsc --noEmit
+        language: system
+        files: \.(ts|tsx)$
+        pass_filenames: false
